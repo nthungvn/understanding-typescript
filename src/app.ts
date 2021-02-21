@@ -8,9 +8,10 @@ function add(num1: number, num2: number, showResult: boolean, phrase: string) {
     return num1 + num2;
   }
 }
-const num1 = 5;
+let num1:number;
+num1 = 5;
 const num2 = 3.3;
 const printResult = true;
-const resultPhrase = 'The result is ';
+let resultPhrase = 'The result is ';
 
 add(num1, num2, printResult, resultPhrase);
