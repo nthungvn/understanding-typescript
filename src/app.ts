@@ -9,3 +9,13 @@ if (typeof userInput === 'string') {
   console.log(userName);
 }
 
+function generateError(message: string, code: number): never {
+  throw {
+    message: message,
+    statusCode: code,
+  }
+  // return; // Compile error
+}
+
+const result = generateError('The error occurred', 500);
+console.log(result);
