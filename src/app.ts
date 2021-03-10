@@ -1,4 +1,4 @@
-const button = document.querySelector('button');
+const button = document.querySelector('button')!;
 
 function add(num1: number, num2: number, type: string) {
   if (type === 'number') {
@@ -7,10 +7,12 @@ function add(num1: number, num2: number, type: string) {
   return;
 }
 
-button?.addEventListener('click', () => {
+function clickHandler(message: string) {
   // const userName = 'Hung';
 
-  console.log('Clicked');
-});
+  console.log('Clicked ' + message);
+}
+
+button?.addEventListener('click', clickHandler.bind(null, "You're welcome!"));
 
 // Remove comment
