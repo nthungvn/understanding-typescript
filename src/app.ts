@@ -15,8 +15,26 @@ console.log(userName);
 
 // add(3, 5);
 
-if (age === 29) {
-  let result = 1;
+// if (age === 29) {
+//   let result = 1;
+// }
+
+// console.log(result);
+
+const add = (num1: number, num2: number) => {
+  return num1 + num2;
 }
 
-console.log(result);
+const add1 = (num1: number, num2: number) => num1 + num2;
+
+console.log(add(1, 29));
+console.log(add1(12, 29));
+
+const printOutput: (a: string | number) => void = value => console.log(value);
+
+printOutput('Hello world');
+
+const button = document.querySelector('button');
+if (button) {
+  button.addEventListener('click', event => console.log(event));
+}
