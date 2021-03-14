@@ -56,3 +56,13 @@ const person = {
 
 const copiedPerson = { ...person };
 console.log(copiedPerson);
+
+const add2 = (...list: number[]) => {
+  let result = 0;
+  for (let item of list) {
+    result += item;
+  }
+  return result;
+}
+
+console.log(add2(2, 3, 4, 5));
