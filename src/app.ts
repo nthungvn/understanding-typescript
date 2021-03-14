@@ -21,11 +21,11 @@ console.log(userName);
 
 // console.log(result);
 
-const add = (num1: number, num2: number) => {
+const add = (num1: number, num2: number = 3) => {
   return num1 + num2;
 }
 
-const add1 = (num1: number, num2: number) => num1 + num2;
+const add1 = (num1: number = 3, num2: number) => num1 + num2;
 
 console.log(add(1, 29));
 console.log(add1(12, 29));
@@ -38,3 +38,6 @@ const button = document.querySelector('button');
 if (button) {
   button.addEventListener('click', event => console.log(event));
 }
+
+printOutput(add(3));
+// printOutput(add1(3)); Error
