@@ -1,16 +1,18 @@
 class Department {
   // name: string;
-  private employees: string[] = [];
+  private readonly employees: string[] = [];
 
-  constructor(private id: string, private name: string) {
+  constructor(private readonly id: string, private name: string) {
     // this.name = name;
   }
 
   describe(this: Department) {
+    this.id = 'new';
     console.log(`Department (${this.id}): ${this.name}`);
   }
 
   addEmployee(employee: string) {
+    this.employees = ['Hung'];
     this.employees.push(employee);
   }
 
