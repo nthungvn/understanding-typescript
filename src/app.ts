@@ -7,12 +7,12 @@ class Department {
   }
 
   describe(this: Department) {
-    this.id = 'new';
+    // this.id = 'new';
     console.log(`Department (${this.id}): ${this.name}`);
   }
 
   addEmployee(employee: string) {
-    this.employees = ['Hung'];
+    // this.employees = ['Hung'];
     this.employees.push(employee);
   }
 
