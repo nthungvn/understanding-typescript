@@ -1,9 +1,17 @@
 class Department {
   // name: string;
+  static fiscalYear = 2020;
+
   protected readonly employees: string[] = [];
 
   constructor(private readonly id: string, private name: string) {
     // this.name = name;
+    Department.fiscalYear = 2028;
+  }
+
+  static createEmployee(name: string) {
+    this.fiscalYear = 2024;
+    return { name };
   }
 
   describe(this: Department) {
@@ -67,6 +75,10 @@ class AccountingDepartment extends Department {
     this.addReport(report);
   }
 }
+
+const employee1 = Department.createEmployee('Max');
+console.log(employee1);
+console.log(Department.fiscalYear);
 
 const it = new ITDepartment('d1', ['Hung', 'Nguyen']);
 console.log(it);
