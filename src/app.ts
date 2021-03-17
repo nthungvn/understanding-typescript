@@ -1,10 +1,10 @@
-class Department {
+abstract class Department {
   // name: string;
   static fiscalYear = 2020;
 
   protected readonly employees: string[] = [];
 
-  constructor(private readonly id: string, private name: string) {
+  constructor(protected readonly id: string, private name: string) {
     // this.name = name;
     Department.fiscalYear = 2028;
   }
@@ -14,10 +14,7 @@ class Department {
     return { name };
   }
 
-  describe(this: Department) {
-    // this.id = 'new';
-    console.log(`Department (${this.id}): ${this.name}`);
-  }
+  abstract describe(this: Department): void;
 
   addEmployee(employee: string) {
     // this.employees = ['Hung'];
@@ -32,17 +29,27 @@ class Department {
 
 class ITDepartment extends Department {
   private admins: string[];
+
   constructor(id: string, admins: string[]) {
     super(id, 'IT');
     this.admins = admins;
+  }
+
+  describe() {
+    console.log('ITDepartment - ID: ' + this.id);
   }
 }
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+
   constructor(id: string, private reports: string[]) {
     super(id, 'Accounting');
     this.lastReport = reports[0];
+  }
+
+  describe() {
+    console.log('AccountingDepartment - ID: ' + this.id);
   }
 
   addEmployee(name: string) {
@@ -96,6 +103,7 @@ accounting.addEmployee('Hung');
 accounting.addEmployee('Fuok');
 accounting.addReport('Something went wrong...');
 accounting.printReports();
+accounting.describe();
 console.log(accounting);
 
 // const accountingCopied = {
