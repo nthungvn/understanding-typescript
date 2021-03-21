@@ -129,3 +129,13 @@ moveAnimal({
 // const userInput = document.getElementById('user-input') as HTMLInputElement;
 const userInput = <HTMLInputElement> document.getElementById('user-input');
 userInput.value = 'Hi there!';
+
+
+interface ErrorContainer {
+  [prop: string]: string;
+}
+
+const error: ErrorContainer = {
+  email: 'Not a valid email',
+  username: 'Must start with a capital letter',
+}
