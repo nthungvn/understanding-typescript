@@ -9,4 +9,16 @@ const promise: Promise<number> = new Promise((resolve, reject) => {
 
 promise.then((data) => {
   console.log(typeof data);
-})
+});
+
+function merge<T, U>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
+}
+
+const mergeObj = merge({ name: 'Hung', hobbies: ['Sports'] }, { age: 28 });
+// Equivalent to
+// const mergeObj = merge<{ name: string; hobbies: string[] }, { age: number }>(
+//   { name: 'Hung', hobbies: ['Sports'] },
+//   { age: 28 }
+// );
+console.log(mergeObj.name);
