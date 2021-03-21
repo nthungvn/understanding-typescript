@@ -87,3 +87,27 @@ const numberStorage = new DataStorage<number>();
 // objStorage.addItem({ name: 'Fuok' });
 // objStorage.removeItem(hung);
 // console.log(objStorage.getItems());
+
+interface CourseGoal {
+  name: string;
+  description: string;
+  startDate: Date;
+}
+
+function createCourseGoal(
+  name: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  const courseGoal: Partial<CourseGoal> = {};
+  courseGoal.name = name;
+  courseGoal.description = description;
+  courseGoal.startDate = date;
+  return courseGoal as CourseGoal;
+}
+
+console.log(createCourseGoal('TypeScript', 'In 16 hours', new Date()));
+
+const names2: Readonly<string[]> = ['Hung', 'Fuok'];
+// names2.push('Tang');
+// names2.pop();
