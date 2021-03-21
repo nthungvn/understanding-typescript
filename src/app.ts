@@ -42,6 +42,17 @@ const r2 = add('Hung', 4);
 const r3 = add(3, 'Hung');
 const r4 = add('Hung', 'Nguyen');
 
+const fetchedUserData = {
+  id: 'u1',
+  name: 'Hung',
+  job: {
+    title: 'CEO',
+    description: 'My company',
+  }
+};
+
+console.log(fetchedUserData?.job?.title);
+
 type UnknownEmployee = Employee | Admin;
 
 function printEmployeeInformation(emp: UnknownEmployee) {
