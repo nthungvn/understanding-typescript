@@ -53,3 +53,37 @@ function extractAndConvert<T extends object, U extends keyof T>(
 console.log(extractAndConvert({ name: 'Hung' }, 'name'));
 
 // console.log(extractAndConvert({  }, 'name')); // Error
+
+class DataStorage<T extends string | number | boolean> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+
+const textStorage = new DataStorage<string>();
+textStorage.addItem('Hung');
+textStorage.addItem('Fuok');
+textStorage.removeItem('Hung');
+console.log(textStorage.getItems());
+
+const numberStorage = new DataStorage<number>();
+
+// const objStorage = new DataStorage<object>();
+// const hung = { name: 'Hung' };
+// objStorage.addItem(hung);
+// objStorage.addItem({ name: 'Fuok' });
+// objStorage.removeItem(hung);
+// console.log(objStorage.getItems());
