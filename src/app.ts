@@ -29,16 +29,43 @@ class Person {
 
 // const person = new Person();
 
-function Log(target: any, propertyName: string | Symbol) {
-  console.log('Property decorator');
-  console.log(target, propertyName);
+function PropertyLog(target: any, propertyName: string | Symbol) {
+  console.log('// START: Property decorator');
+  console.log(target);
+  console.log(propertyName);
+  console.log('// END');
+}
+
+function AccessorLog(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+  console.log('// START: Accessor decorator');
+  console.log(target);
+  console.log(propertyName);
+  console.log(descriptor);
+  console.log('// END');
+}
+
+function MethodLog(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+  console.log('// START: Method decorator');
+  console.log(target);
+  console.log(propertyName);
+  console.log(descriptor);
+  console.log('// END');
+}
+
+function ParameterLog(target: any, propertyName: string | Symbol, position: number) {
+  console.log('// START: Parameter decorator');
+  console.log(target);
+  console.log(propertyName);
+  console.log(position);
+  console.log('// END');
 }
 
 class Product {
-  @Log
+  @PropertyLog
   title: string;
   private _price: number;
 
+  @AccessorLog
   set price(value: number) {
     if (value > 0) {
       this._price = value;
@@ -52,7 +79,8 @@ class Product {
     this._price = price;
   }
 
-  getPriceWithTax(tax: number) {
+  @MethodLog
+  getPriceWithTax(@ParameterLog tax: number) {
     return this._price * (1 + tax);
   }
 }
