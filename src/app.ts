@@ -8,12 +8,16 @@ function Logger(name: string) {
 
 function WithTemplate(template: string, hookId: string) {
   console.log('TEMPLATE FACTORY');
-  return (constructor: any) => {
-    console.log('Template decorator');
-    const person = new constructor();
-    const hookEl = document.getElementById(hookId)!;
-    hookEl.innerHTML = template;
-    hookEl.innerHTML = `<h1>Hi, ${person.name}!</h1>`;
+  return <T extends { new (...args: any[]): { name: string } }>(OriginalConstructor: T) => {
+    return class extends OriginalConstructor {
+      constructor(..._: any[]) {
+        super();
+        console.log('Template decorator');
+        const hookEl = document.getElementById(hookId)!;
+        hookEl.innerHTML = template;
+        hookEl.innerHTML = `<h1>Hi, ${this.name}!</h1>`;
+      }
+    };
   };
 }
 
@@ -27,7 +31,7 @@ class Person {
   }
 }
 
-// const person = new Person();
+const person = new Person();
 
 function PropertyLog(target: any, propertyName: string | Symbol) {
   console.log('// START: Property decorator');
@@ -36,7 +40,11 @@ function PropertyLog(target: any, propertyName: string | Symbol) {
   console.log('// END');
 }
 
-function AccessorLog(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+function AccessorLog(
+  target: any,
+  propertyName: string | Symbol,
+  descriptor: PropertyDescriptor
+) {
   console.log('// START: Accessor decorator');
   console.log(target);
   console.log(propertyName);
@@ -44,7 +52,11 @@ function AccessorLog(target: any, propertyName: string | Symbol, descriptor: Pro
   console.log('// END');
 }
 
-function MethodLog(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+function MethodLog(
+  target: any,
+  propertyName: string | Symbol,
+  descriptor: PropertyDescriptor
+) {
   console.log('// START: Method decorator');
   console.log(target);
   console.log(propertyName);
@@ -52,7 +64,11 @@ function MethodLog(target: any, propertyName: string | Symbol, descriptor: Prope
   console.log('// END');
 }
 
-function ParameterLog(target: any, propertyName: string | Symbol, position: number) {
+function ParameterLog(
+  target: any,
+  propertyName: string | Symbol,
+  position: number
+) {
   console.log('// START: Parameter decorator');
   console.log(target);
   console.log(propertyName);
