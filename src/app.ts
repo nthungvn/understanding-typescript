@@ -100,3 +100,29 @@ class Product {
     return this._price * (1 + tax);
   }
 }
+
+function AutoBind(_: any, __: any, descriptor: PropertyDescriptor): PropertyDescriptor {
+  const originalFunction = descriptor.value;
+  return {
+    configurable: true,
+    enumerable: false,
+    get: function () {
+      const bindFn = originalFunction.bind(this);
+      return bindFn;
+    }
+  }
+}
+
+class Printer {
+  message = 'This worked!';
+
+  @AutoBind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const button = document.querySelector('button');
+button?.addEventListener('click', p.showMessage);
