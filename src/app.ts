@@ -126,3 +126,42 @@ const p = new Printer();
 
 const button = document.querySelector('button');
 button?.addEventListener('click', p.showMessage);
+
+function Required() {
+
+}
+
+function PositiveNumber() {
+
+}
+
+function validate(course: Course) {
+
+}
+
+class Course {
+  @Required
+  title: string;
+
+  @PositiveNumber
+  price: number;
+
+  constructor(title: string, price: number) {
+    this.title = title;
+    this.price = price;
+  }
+}
+
+const formCourse = document.querySelector('form');
+formCourse?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const titleEl = formCourse.querySelector('#title') as HTMLInputElement;
+  const priceEl = formCourse.querySelector('#price') as HTMLInputElement;
+  const title = titleEl.value;
+  const price = +priceEl.value;
+
+  const course = new Course(title, price);
+  if (validate(course)) {
+    console.log(course);
+  }
+})
