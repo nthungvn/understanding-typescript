@@ -127,16 +127,48 @@ const p = new Printer();
 const button = document.querySelector('button');
 button?.addEventListener('click', p.showMessage);
 
-function Required() {
-
+interface ValidationConfig {
+  [propertyName: string]: {
+    [validationProperty: string]: string[]
+  }
 }
 
-function PositiveNumber() {
+const globalValidationConfig: ValidationConfig = {};
 
+function Required(target: any, propertyName: string) {
+  globalValidationConfig[target.constructor.name] = {
+    ...globalValidationConfig[target.constructor.name],
+    [propertyName]: ['required']
+  }
 }
 
-function validate(course: Course) {
+function PositiveNumber(target: any, propertyName: string) {
+  globalValidationConfig[target.constructor.name] = {
+    ...globalValidationConfig[target.constructor.name],
+    [propertyName]: ['positive']
+  }
+}
 
+function validate(obj: any) {
+  const objValidationConfig = globalValidationConfig[obj.constructor.name];
+  if (!objValidationConfig) {
+    return true;
+  }
+
+  let isValid = true;
+  for (let propertyName in objValidationConfig) {
+    for (let validator of objValidationConfig[propertyName]) {
+      switch (validator) {
+        case 'required':
+          isValid = isValid && !!obj[propertyName];
+          break;
+        case 'positive':
+          isValid = isValid && obj[propertyName] > 0;
+          break;
+      }
+    }
+  }
+  return isValid;
 }
 
 class Course {
@@ -161,7 +193,10 @@ formCourse?.addEventListener('submit', (event) => {
   const price = +priceEl.value;
 
   const course = new Course(title, price);
-  if (validate(course)) {
-    console.log(course);
+  if (!validate(course)) {
+    console.log('Invalid input, please enter again');
+    return;
   }
+
+  console.log(course);
 })
