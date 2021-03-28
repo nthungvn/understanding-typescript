@@ -40,12 +40,38 @@ class ProjectInput {
     this.attach();
   }
 
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputEl.value;
+    const enteredDescription = this.descriptionInputEl.value;
+    const enteredPeople = this.peopleInputEl.value;
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      alert('Please enter a valid input!')
+      return;
+    } else {
+
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  private clearUserInput() {
+    this.titleInputEl.value = '';
+    this.descriptionInputEl.value = '';
+    this.peopleInputEl.value = '';
+  }
+
   @AutoBind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputEl.value);
-    console.log(this.descriptionInputEl.value);
-    console.log(this.peopleInputEl.value);
+    const value = this.gatherUserInput();
+    if (Array.isArray(value)) {
+      const [title, description, people] = value;
+      console.log(title, description, people);
+      this.clearUserInput();
+    }
   }
 
   private configure() {
