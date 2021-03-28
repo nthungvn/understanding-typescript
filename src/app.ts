@@ -1,3 +1,20 @@
+function AutoBind(
+  _: any,
+  __: String,
+  descriptor: PropertyDescriptor
+) {
+  const originalFn = descriptor.value;
+
+  const updatedDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get: function () {
+      return originalFn.bind(this);
+    },
+  };
+  return updatedDescriptor;
+}
+
 class ProjectInput {
   private templateEl: HTMLTemplateElement;
   private hostEl: HTMLDivElement;
@@ -32,7 +49,7 @@ class ProjectInput {
   }
 
   private configure() {
-    this.formEl.addEventListener('submit', this.submitHandler.bind(this))
+    this.formEl.addEventListener('submit', this.submitHandler);
   }
 
   private attach() {
@@ -40,4 +57,3 @@ class ProjectInput {
   }
 }
 const projectInput = new ProjectInput();
-
