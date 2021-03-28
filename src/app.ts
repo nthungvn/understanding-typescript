@@ -40,9 +40,26 @@ function AutoBind(_: any, __: String, descriptor: PropertyDescriptor) {
   return updatedDescriptor;
 }
 
+enum ProjectStatus {
+  ACTIVE,
+  FINISHED,
+}
+
+class Project {
+  constructor(
+    public id: string,
+    public title: string,
+    public description: string,
+    public people: number,
+    public status: ProjectStatus
+  ) {}
+}
+
+type Listener = (projects: Project[]) => void;
+
 class ProjectState {
-  private listeners: any[] = [];
-  private projects: any[] = [];
+  private listeners: Listener[] = [];
+  private projects: Project[] = [];
   private static instance: ProjectState;
 
   static getInstance() {
@@ -52,12 +69,18 @@ class ProjectState {
     return this.instance;
   }
 
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   addProject(title: string, description: string, people: number) {
-    const project = { id: Math.random().toString(), title, description, people };
+    const project = new Project(
+      Math.random().toString(),
+      title,
+      description,
+      people,
+      ProjectStatus.ACTIVE
+    );
     this.projects.push(project);
 
     this.listeners.forEach((listenerFn) => listenerFn(this.projects.slice()));
@@ -71,7 +94,7 @@ class ProjectList {
   private hostEl: HTMLDivElement;
   private projectListSection: HTMLElement;
 
-  private assignedProjects: any[];
+  private assignedProjects: Project[];
 
   constructor(private type: 'active' | 'finished') {
     this.templateEl = document.getElementById(
@@ -83,23 +106,25 @@ class ProjectList {
     this.projectListSection.id = `${this.type}-projects`;
     this.assignedProjects = [];
 
-    projectState.addListener((projects: any[]) => {
+    projectState.addListener((projects: Project[]) => {
       this.assignedProjects = projects;
       this.renderProjects();
-    })
+    });
 
     this.attach();
     this.renderContent();
   }
 
   private renderProjects() {
-    const listEl = document.getElementById(`${this.type}-projects-list`) as HTMLUListElement;
+    const listEl = document.getElementById(
+      `${this.type}-projects-list`
+    ) as HTMLUListElement;
     listEl.innerHTML = '';
     this.assignedProjects.forEach((project) => {
       const projectItemEl = document.createElement('li');
       projectItemEl.textContent = project.title;
       listEl.appendChild(projectItemEl);
-    })
+    });
   }
 
   private renderContent() {
