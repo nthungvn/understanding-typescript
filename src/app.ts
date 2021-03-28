@@ -1,8 +1,33 @@
-function AutoBind(
-  _: any,
-  __: String,
-  descriptor: PropertyDescriptor
-) {
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(config: Validatable) {
+  let isValid = true;
+  if (config.required) {
+    isValid = isValid && !!config.value;
+  }
+  if (config.minLength != null && typeof config.value === 'string') {
+    isValid = isValid && config.value.length >= config.minLength;
+  }
+  if (config.maxLength != null && typeof config.value === 'string') {
+    isValid = isValid && config.value.length <= config.maxLength;
+  }
+  if (config.min != null && typeof config.value === 'number') {
+    isValid = isValid && config.value >= config.min;
+  }
+  if (config.max != null && typeof config.value === 'number') {
+    isValid = isValid && config.value <= config.max;
+  }
+  return isValid;
+}
+
+function AutoBind(_: any, __: String, descriptor: PropertyDescriptor) {
   const originalFn = descriptor.value;
 
   const updatedDescriptor: PropertyDescriptor = {
@@ -34,8 +59,12 @@ class ProjectInput {
     this.formEl = importedNote.firstElementChild as HTMLFormElement;
     this.formEl.id = 'user-input';
     this.titleInputEl = this.formEl.querySelector('#title') as HTMLInputElement;
-    this.descriptionInputEl = this.formEl.querySelector('#description') as HTMLInputElement;
-    this.peopleInputEl = this.formEl.querySelector('#people') as HTMLInputElement;
+    this.descriptionInputEl = this.formEl.querySelector(
+      '#description'
+    ) as HTMLInputElement;
+    this.peopleInputEl = this.formEl.querySelector(
+      '#people'
+    ) as HTMLInputElement;
     this.configure();
     this.attach();
   }
@@ -43,17 +72,34 @@ class ProjectInput {
   private gatherUserInput(): [string, string, number] | void {
     const enteredTitle = this.titleInputEl.value;
     const enteredDescription = this.descriptionInputEl.value;
-    const enteredPeople = this.peopleInputEl.value;
+    const enteredPeople = +this.peopleInputEl.value;
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+      minLength: 5,
+      maxLength: 20,
+    };
+    const descriptionValidatble: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+      maxLength: 100,
+    };
+    const peopleValidatable: Validatable = {
+      value: enteredPeople,
+      required: true,
+      min: 1,
+      max: 5,
+    };
     if (
-      enteredTitle.trim().length === 0 ||
-      enteredDescription.trim().length === 0 ||
-      enteredPeople.trim().length === 0
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatble) ||
+      !validate(peopleValidatable)
     ) {
-      alert('Please enter a valid input!')
+      alert('Please enter a valid input!');
       return;
     } else {
-
-      return [enteredTitle, enteredDescription, +enteredPeople];
+      return [enteredTitle, enteredDescription, enteredPeople];
     }
   }
 
