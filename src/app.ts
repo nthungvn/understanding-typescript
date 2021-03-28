@@ -224,7 +224,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
       minLength: 5,
       maxLength: 20,
     };
-    const descriptionValidatble: Validatable = {
+    const descriptionValidatable: Validatable = {
       value: enteredDescription,
       required: true,
       minLength: 5,
@@ -238,7 +238,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     };
     if (
       !validate(titleValidatable) ||
-      !validate(descriptionValidatble) ||
+      !validate(descriptionValidatable) ||
       !validate(peopleValidatable)
     ) {
       alert('Please enter a valid input!');
