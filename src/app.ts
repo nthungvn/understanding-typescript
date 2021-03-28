@@ -41,8 +41,8 @@ function AutoBind(_: any, __: String, descriptor: PropertyDescriptor) {
 }
 
 enum ProjectStatus {
-  ACTIVE,
-  FINISHED,
+  ACTIVE = 'active',
+  FINISHED = 'finished',
 }
 
 class Project {
@@ -107,7 +107,8 @@ class ProjectList {
     this.assignedProjects = [];
 
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      const relevantProjects = projects.filter((project) => project.status.toLowerCase() === this.type);
+      this.assignedProjects = relevantProjects;
       this.renderProjects();
     });
 
