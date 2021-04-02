@@ -40,6 +40,17 @@ function AutoBind(_: any, __: String, descriptor: PropertyDescriptor) {
   return updatedDescriptor;
 }
 
+interface Draggable {
+  dragStartHandler(event: DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
+
 enum ProjectStatus {
   ACTIVE = 'active',
   FINISHED = 'finished',
@@ -132,8 +143,9 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   protected abstract renderContent?(): void;
 }
 
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
-
+class ProjectItem
+  extends Component<HTMLUListElement, HTMLLIElement>
+  implements Draggable {
   get persons() {
     if (this.project.people === 1) {
       return '1 person';
@@ -147,13 +159,27 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.renderContent();
   }
 
+  @AutoBind
+  dragStartHandler(event: DragEvent): void {
+    event.dataTransfer!.setData('text/plain', this.el.id);
+    event.dataTransfer!.dropEffect = 'copy';
+    console.log('dragstart', event);
+  }
+
+  dragEndHandler(_: DragEvent): void {
+    console.log('Drag End');
+  }
+
   renderContent() {
     this.el.querySelector('h2')!.textContent = this.project.title;
     this.el.querySelector('h3')!.textContent = this.persons + ' assigned';
     this.el.querySelector('p')!.textContent = this.project.description;
   }
 
-  configure() {}
+  configure() {
+    this.el.addEventListener('dragstart', this.dragStartHandler);
+    this.el.addEventListener('dragend', this.dragEndHandler);
+  }
 }
 
 class ProjectList extends Component<HTMLDivElement, HTMLElement> {
