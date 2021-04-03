@@ -1,10 +1,10 @@
 import { AutoBind } from '../decorators/autobind.js';
 import { Draggable } from '../models/drag-drop.js';
 import { Project } from '../models/project.js';
-import { Component } from './base-component.js';
+import Cmp from './base-component.js';
 
 export class ProjectItem
-  extends Component<HTMLUListElement, HTMLLIElement>
+  extends Cmp<HTMLUListElement, HTMLLIElement>
   implements Draggable {
   get persons() {
     if (this.project.people === 1) {
