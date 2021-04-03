@@ -1,4 +1,9 @@
+/// <reference path="base-component.ts" />
 /// <reference path="project-item.ts" />
+/// <reference path="../models/drag-drop.ts" />
+/// <reference path="../models/project.ts" />
+/// <reference path="../state/project-state.ts" />
+/// <reference path="../decorators/autobind.ts" />
 
 namespace App {
   export class ProjectList
@@ -20,10 +25,7 @@ namespace App {
       ) as HTMLUListElement;
       listEl.innerHTML = '';
       this.assignedProjects.forEach((project) => {
-        const projectItem = new ProjectItem(
-          `${this.type}-projects-list`,
-          project
-        );
+        new ProjectItem(`${this.type}-projects-list`, project);
       });
     }
 
