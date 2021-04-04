@@ -3,6 +3,7 @@ import 'reflect-metadata';
 
 import { Project } from './project.model';
 import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
 
 declare var GLOBAL: string;
 
@@ -23,5 +24,13 @@ const projects = plainToClass(Project, fetchProjects);
 
 projects.forEach((project) => console.log(project.getInformation()));
 
-// const project = new Project('Javascript', 13);
-// console.log(project.getInformation());
+const project = new Project('', -13);
+
+
+validate(project).then((errors) => {
+  if (errors.length > 0) {
+    errors.forEach((error) => console.log(error));
+  } else {
+    console.log(project.getInformation());
+  }
+});
