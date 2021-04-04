@@ -29,18 +29,19 @@ type HereResponse = {
 function searchAddressHandler(event: Event) {
   event.preventDefault();
   const enteredAddress = addressEl.value && encodeURI(addressEl.value);
-  console.log(enteredAddress);
   const url = `https://geocode.search.hereapi.com/v1/geocode?q=${enteredAddress}&apiKey=${HERE_API_KEY}`;
   axios
     .get<HereResponse>(url)
     .then((response) => {
       const searchItems = response.data.items;
       if (searchItems.length > 0) {
-        return searchItems[0].position;
+        const goodMatched = searchItems[0];
+        console.log(goodMatched.position, goodMatched.title);
+        return goodMatched.position;
       }
+      throw Error('Could not find the address!');
     })
     .then((position) => {
-      console.log(position);
       const platform = new H.service.Platform({
         apikey: HERE_API_KEY,
       });
@@ -52,7 +53,7 @@ function searchAddressHandler(event: Event) {
         center: position,
       });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => alert(error));
 }
 
 form.addEventListener('submit', searchAddressHandler);
