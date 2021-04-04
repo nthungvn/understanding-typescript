@@ -6,8 +6,6 @@ const mapEl = document.getElementById('map')! as HTMLDivElement;
 
 const HERE_API_KEY = 'UXUW9lUMMymPGT9UvU2ke0muFeSUGwpVY7Xnly4pS_Y';
 
-declare const H: any;
-
 type HereResponse = {
   items: {
     id: string;
