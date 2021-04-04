@@ -48,10 +48,12 @@ function searchAddressHandler(event: Event) {
       const defaultLayers = platform.createDefaultLayers();
 
       mapEl.innerHTML = '';
-      new H.Map(mapEl, defaultLayers.vector.normal.map, {
+      const map = new H.Map(mapEl, defaultLayers.vector.normal.map, {
         zoom: 13,
         center: position,
       });
+      const marker = new H.map.Marker(position);
+      map.addObject(marker);
     })
     .catch((error) => alert(error));
 }
