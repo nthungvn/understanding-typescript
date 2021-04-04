@@ -4,6 +4,7 @@ import todosRoutes from './routes/todos';
 
 const app = express();
 
+app.use(express.json())
 app.use('/todos', todosRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
