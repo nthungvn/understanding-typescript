@@ -1,7 +1,13 @@
-const TodoList = (props: { todos: [{ id: string; text: string }] }) => {
+import Todo from '../types/Todo';
+
+interface TodoListProps {
+  items: Todo[];
+}
+
+const TodoList = (props: TodoListProps) => {
   return (
     <ul>
-      {props.todos.map((todo) => (
+      {props.items.map((todo) => (
         <li key={todo.id}>{todo.text}</li>
       ))}
     </ul>
