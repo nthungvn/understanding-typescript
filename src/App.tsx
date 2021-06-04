@@ -15,10 +15,14 @@ const App = () => {
     ]);
   };
 
+  const deleteTodoHandler = (todoId: string) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
+  };
+
   return (
     <div className="App">
       <NewTodo onCreate={createTodoHandler} />
-      <TodoList items={todos} />
+      <TodoList items={todos} onDelete={deleteTodoHandler} />
     </div>
   );
 };
