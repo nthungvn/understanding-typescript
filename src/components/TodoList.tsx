@@ -1,4 +1,5 @@
 import Todo from '../types/Todo.model';
+import './NewTodo.css';
 
 interface TodoListProps {
   items: Todo[];
