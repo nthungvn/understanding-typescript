@@ -1,4 +1,4 @@
-import Todo from '../types/Todo';
+import Todo from '../types/Todo.model';
 
 interface TodoListProps {
   items: Todo[];
